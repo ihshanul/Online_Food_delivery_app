@@ -6,11 +6,28 @@ export const StoreContext = createContext(null);
 
 export const StoreContextProvider =(props)=>{
     const [foodList , setFoodlist]= useState([]);
+    const [quantities, setQuantities] = useState({});
 
-  
+    const increaseQty = (foodId)=>{
+        setQuantities((prev)=>({...prev , [foodId] :(prev[foodId] || 0)+1 }))
+    }
+    const decreaseQty = (foodId)=>{
+        setQuantities((prev)=>({...prev , [foodId] :(prev[foodId] > 0 ? prev[foodId] -1 : 0)}))
+    }
+    const removeFromCart = (foodId)=>{
+        setQuantities((prevQuantities)=>{
+            const updatedQuantities ={...prevQuantities};
+            delete updatedQuantities[foodId];
+            return updatedQuantities
+    })
+    }
 
     const contextValue ={
-        foodList
+        foodList,
+        removeFromCart,
+        quantities,
+        increaseQty,
+        decreaseQty
     }
     useEffect(()=>{
         async function loadFood(){

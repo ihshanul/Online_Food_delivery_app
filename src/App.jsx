@@ -2,9 +2,11 @@ import React from "react";
 import Menubar from "./components/Menubar/Menubar";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import ContactUs from "./pages/ContactUs";
+import ContactUs from "./pages/contact/ContactUs";
 import Explore from "./pages/Explore";
 import FoodDetails from "./pages/FoodDetails";
+import Cart from "./pages/cart/Cart";
+import PlaceOrder from "./pages/placeOrder/placeOrder";
 
 const App = () => {
   return (
@@ -16,6 +18,8 @@ const App = () => {
         <Route path='/contactus' element={<ContactUs />}/>
         <Route path='/explore' element={<Explore />}/>
         <Route path="/food/:id" element={<FoodDetails/>}/>
+        <Route path="/cart" element={<Cart />}/>
+        <Route path='/order' element={<PlaceOrder />}/>
       </Routes>
     </div>
   );

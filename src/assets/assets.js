@@ -7,7 +7,7 @@ import pizza from './pizza.png';
 import salad from './salad.png';
 import rolls from './rolls.jpeg';
 import cart from './cart.png';
-import icecreams from './icrecreams.jpg';
+import icecream from './icrecreams.jpg';
 
 
 export const assets = {
@@ -21,7 +21,7 @@ export const categories =[
         icon : biriyani
     },
     {
-        category :'Cakes',
+        category :'Cake',
         icon : cakes
     },
     {
@@ -33,8 +33,8 @@ export const categories =[
         icon : burger
     },
     {
-        category :'Ice Creams',
-        icon : icecreams
+        category :'Ice cream',
+        icon : icecream
     },
     {
         category :'Salad',
