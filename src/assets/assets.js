@@ -1,5 +1,5 @@
-import logo from './logo.png';
-
+import logo from './logoORG.png';
+import login from './login.png';
 import biriyani from './biriyani.png';
 import burger from './burger.jpeg';
 import cakes from './cakes.jpeg';
@@ -12,6 +12,7 @@ import icecream from './icrecreams.jpg';
 
 export const assets = {
     logo,
+    login,
     cart
 };
 

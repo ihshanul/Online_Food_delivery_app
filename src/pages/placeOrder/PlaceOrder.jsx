@@ -1,54 +1,57 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./PlaceOrder.css";
+import { assets } from "../../assets/assets";
+import { StoreContext } from "../../context/StoreContext";
+import { CalculateCartTotals } from "../../util/CartUtils";
 const PlaceOrder = () => {
+  const {foodList , quantities , setQuantities ,}=useContext(StoreContext);
+   const cartItems = foodList.filter((food) => quantities[food.id] > 0);
+
+  const {subTotal , shipping , tax , total}=CalculateCartTotals(cartItems , quantities);
   return (
-    <div className="container mt-4">
-      <div className="container mt-4">
+
+    <div className="container ">
         <main>
+          <div className=" text-center ">
+            <img src={assets.logo} alt="" className="d-block mx-auto " width={130} height={130} />
+          </div>
           <div className="row g-5">
             <div className="col-md-5 col-lg-4 order-md-last">
               <h4 className="d-flex justify-content-between align-items-center mb-3">
                 <span className="text-primary">Your cart</span>
-                <span className="badge bg-primary rounded-pill">3</span>
+                <span className="badge bg-primary rounded-pill">{cartItems.length}</span>
               </h4>
               <ul className="list-group mb-3">
-                <li className="list-group-item d-flex justify-content-between lh-sm">
+              {
+                cartItems.map(item =>(
+                  <li className="list-group-item d-flex justify-content-between">
                   <div>
-                    <h6 className="my-0">Product name</h6>
+                    <h6 className="my-0">{item.name}</h6>
                     <small className="text-body-secondary">
-                      Brief description
+                      Qty : {quantities[item.id]}
                     </small>
                   </div>
-                  <span className="text-body-secondary">$12</span>
+                  <span className="text-body-secondary">&#8377;{item.price * quantities[item.id]}</span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between lh-sm">
+                ))
+              }
+                
+                <li className="list-group-item d-flex justify-content-between ">
                   <div>
-                    <h6 className="my-0">Second product</h6>
-                    <small className="text-body-secondary">
-                      Brief description
-                    </small>
+                    <span >Shipping</span>
                   </div>
-                  <span className="text-body-secondary">$8</span>
+                  <span className="text-body-secondary">&#8377;{subTotal === 0? 0.00 : shipping.toFixed(2)}</span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between lh-sm">
+                <li className="list-group-item d-flex justify-content-between ">
                   <div>
-                    <h6 className="my-0">Third item</h6>
-                    <small className="text-body-secondary">
-                      Brief description
-                    </small>
+                    <span>Tax</span>
                   </div>
-                  <span className="text-body-secondary">$5</span>
+                  <span className="text-body-secondary">{tax.toFixed(2)}</span>
                 </li>
-                <li className="list-group-item d-flex justify-content-between bg-body-tertiary">
-                  <div className="text-success">
-                    <h6 className="my-0">Promo code</h6>
-                    <small>EXAMPLECODE</small>
-                  </div>
-                  <span className="text-success">−$5</span>
-                </li>
+               
                 <li className="list-group-item d-flex justify-content-between">
                   <span>Total (INR)</span>
-                  <strong>$20</strong>
+                  <strong>&#8377;{total.toFixed(2)}</strong>
                 </li>
               </ul>
             </div>
@@ -65,7 +68,7 @@ const PlaceOrder = () => {
                       type="text"
                       className="form-control"
                       id="firstName"
-                      placeholder=""
+                      placeholder="ihshan"
                       required
                     />
                   </div>
@@ -77,7 +80,7 @@ const PlaceOrder = () => {
                       type="text"
                       className="form-control"
                       id="lastName"
-                      placeholder=""
+                      placeholder="halq"
                       required
                     />
                   </div>
@@ -88,7 +91,7 @@ const PlaceOrder = () => {
                     <div className="input-group has-validation">
                       <span className="input-group-text">@</span>
                       <input
-                        type="text"
+                        type="email"
                         className="form-control"
                         id="email"
                         placeholder="you@gmail.com"
@@ -110,15 +113,15 @@ const PlaceOrder = () => {
                     />
                   </div>
                   <div className="col-12">
-                    <label htmlFor="address2" className="form-label">
-                      Address 2{" "}
-                      <span className="text-body-secondary">(Optional)</span>
+                    <label htmlFor="phone" className="form-label">
+                      Phone Number
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       className="form-control"
-                      id="address2"
-                      placeholder="Apartment or suite"
+                      id="phone"
+                      placeholder="9876543210"
+                      required
                     />
                   </div>
                   <div className="col-md-5">
@@ -148,21 +151,20 @@ const PlaceOrder = () => {
                       type="text"
                       className="form-control"
                       id="zip"
-                      placeholder=""
+                      placeholder="98765"
                       required
                     />
                     <div className="invalid-feedback">Zip code required.</div>
                   </div>
                 </div>
                 <hr className="my-4" />
-                <button className="w-100 btn btn-primary btn-lg" type="submit">
+                <button disabled={cartItems.length ===0} className="w-100 btn btn-primary btn-lg" type="submit">
                   Continue to checkout
                 </button>
               </form>
             </div>
           </div>
         </main>
-      </div>
     </div>
   );
 };
