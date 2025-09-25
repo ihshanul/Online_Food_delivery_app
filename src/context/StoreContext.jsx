@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, use, useEffect, useState } from "react";
 import { fetchFoodList } from "../service/FoodService";
 
 export const StoreContext = createContext(null);
@@ -7,6 +7,8 @@ export const StoreContext = createContext(null);
 export const StoreContextProvider =(props)=>{
     const [foodList , setFoodlist]= useState([]);
     const [quantities, setQuantities] = useState({});
+
+    const [token , setToken ] = useState("");
 
     const increaseQty = (foodId)=>{
         setQuantities((prev)=>({...prev , [foodId] :(prev[foodId] || 0)+1 }))
@@ -27,7 +29,9 @@ export const StoreContextProvider =(props)=>{
         removeFromCart,
         quantities,
         increaseQty,
-        decreaseQty
+        decreaseQty,
+        token, 
+        setToken,
     }
     useEffect(()=>{
         async function loadFood(){

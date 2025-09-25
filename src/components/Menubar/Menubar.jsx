@@ -1,18 +1,31 @@
 import React, { useContext, useState } from "react";
 import "./Menubar.css";
 import { assets } from "../../assets/assets";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 
 const Menubar = () => {
-  const navigate = useNavigate()
-  const [active , setActive] =useState('home')
-  const {quantities} = useContext(StoreContext);
-  const uniqueItems = Object.values(quantities).filter(qty => qty > 0).length;
+  const navigate = useNavigate();
+  const [active, setActive] = useState("home");
+  const { quantities, token, setToken } = useContext(StoreContext);
+  const uniqueItems = Object.values(quantities).filter((qty) => qty > 0).length;
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    navigate("/");
+  };
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container">
-        <Link to="/"><img src={assets.logo} alt=""  className="mx-4" width={48} height={48}/></Link>
+        <Link to="/">
+          <img
+            src={assets.logo}
+            alt=""
+            className="mx-4"
+            width={48}
+            height={48}
+          />
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -27,35 +40,104 @@ const Menubar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-                <Link className={active ==='home' ? "nav-link fw-bold active": 'nav-link'}  to="/" onClick={()=> setActive('home')}>
+              <Link
+                className={
+                  active === "home" ? "nav-link fw-bold active" : "nav-link"
+                }
+                to="/"
+                onClick={() => setActive("home")}
+              >
                 Home
-                </Link>
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className={active === 'explore' ?"nav-link fw-bold active" : 'nav-link'} to="/explore" onClick={()=> setActive('explore')}>
+              <Link
+                className={
+                  active === "explore" ? "nav-link fw-bold active" : "nav-link"
+                }
+                to="/explore"
+                onClick={() => setActive("explore")}
+              >
                 Explore
               </Link>
             </li>
-             <li className="nav-item">
-              <Link className={active === 'contactus' ? "nav-link fw-bold active" : 'nav-link'} to="/contactus" onClick={()=> setActive('contactus')}>
+            <li className="nav-item">
+              <Link
+                className={
+                  active === "contactus"
+                    ? "nav-link fw-bold active"
+                    : "nav-link"
+                }
+                to="/contactus"
+                onClick={() => setActive("contactus")}
+              >
                 Contact Us
               </Link>
             </li>
-           
           </ul>
-            <div className="d-flex align-items-center gap-4">
-                <Link to={"/cart"}>
-                  <div className="position-relative">
-                      <img src={assets.cart} alt="" width={32} height={32} className="position-relative" />
-                      <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">{uniqueItems}</span>
-                  </div>
-                </Link>
-                
-                <button onClick={()=>navigate('/login')} className="btn btn-outline-primary">Login</button>
-                <button onClick={()=>navigate('/register')} className="btn btn-outline-success">Register</button>
+          <div className="d-flex align-items-center gap-4">
+            <Link to={"/cart"}>
+              <div className="position-relative">
+                <img
+                  src={assets.cart}
+                  alt=""
+                  width={32}
+                  height={32}
+                  className="position-relative"
+                />
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                  {uniqueItems}
+                </span>
+              </div>
+            </Link>
 
-            </div>
+            {!token ? (
+              <>
+                <button
+                  onClick={() => navigate("/login")}
+                  className="btn btn-outline-primary"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => navigate("/register")}
+                  className="btn btn-outline-success"
+                >
+                  Register
+                </button>
+              </>
+            ) : (
+              <div className="dropdown text-end">
+                <a
+                  href=""
+                  className="d-block link-body-emphasis text-decoration-none  dropdown-toggle
+                 "
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    src={assets.profile}
+                    width={32}
+                    height={32}
+                    className="rounded-circle"
+                    alt=""
+                  />
+                </a>
 
+                <ul className="dropdown-menu text-small">
+                  <li
+                    className="dropdown-item"
+                    onClick={() => navigate("/myorders")}
+                  >
+                    Orders
+                  </li>
+                  <li className="dropdown-item" onClick={logout}>
+                    Logout
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>
