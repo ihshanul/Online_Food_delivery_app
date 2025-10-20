@@ -6,7 +6,7 @@ import ContactUs from "./pages/contact/ContactUs";
 import Explore from "./pages/Explore";
 import FoodDetails from "./pages/FoodDetails";
 import Cart from "./pages/cart/Cart";
-import PlaceOrder from "./pages/placeOrder/placeOrder";
+import PlaceOrder from "./pages/placeOrder/PlaceOrder";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import  {ToastContainer, toast } from 'react-toastify'; 
