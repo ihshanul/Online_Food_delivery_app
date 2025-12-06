@@ -23,6 +23,16 @@ export const StoreContextProvider =(props)=>{
             return updatedQuantities
     })
     }
+    useEffect(() => {
+        localStorage.setItem("cartItems", JSON.stringify(quantities));
+    }, [quantities]);
+
+     const loadCartData = () => {
+        const savedCart = localStorage.getItem("cartItems");
+        if (savedCart) {
+            setQuantities(JSON.parse(savedCart));
+        }
+    };
 
     const contextValue ={
         foodList,
@@ -32,11 +42,16 @@ export const StoreContextProvider =(props)=>{
         decreaseQty,
         token, 
         setToken,
+        loadCartData
     }
+
     useEffect(()=>{
         async function loadFood(){
         const data = await fetchFoodList();
         setFoodlist(data);
+        if(localStorage.getItem("token")){
+            setToken(localStorage.getItem("token"));
+        }
         }
         loadFood();
     },[])

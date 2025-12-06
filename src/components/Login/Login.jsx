@@ -7,7 +7,7 @@ import { login } from '../../service/authService';
 const Login = () => {
   const navigate = useNavigate();
   
-  const {setToken}=useContext(StoreContext);
+  const {setToken , loadCartData}=useContext(StoreContext);
   const [data , setData] = useState({
     email : '',
     password : ''
@@ -26,6 +26,7 @@ const Login = () => {
         setToken(response.data.token);
         localStorage.setItem('token', response.data.token)
         navigate('/');
+        await loadCartData(response.data.token)
       }else{
         toast.error("Unable to login ... Please try again.")
       }
